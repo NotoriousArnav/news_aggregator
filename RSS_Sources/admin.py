@@ -2,7 +2,10 @@ from django.contrib import admin
 from .models import *
 
 class SourceTable(admin.ModelAdmin):
-    list_display = ("name", "type", "typetype", "update_interval", "date_added", "rss_feed_link", "updates", "last_updated")
+    list_display = ("name", "type", "typetype", "Update_interval", "date_added", "rss_feed_link", "updates", "last_updated")
+
+    def Update_interval(self, cls):
+        return f"{cls.update_interval} Minutes"
 
     def updates(self, cls):
         return cls.rss_cache_set.count()
@@ -24,7 +27,7 @@ class SourceTypeTable(admin.ModelAdmin):
         return cls.source_set.count()
 
 class RSSCache(admin.ModelAdmin):
-    list_display = ("source", "timestamp", "cache_value")
+    list_display = ("source", "timestamp", "cache_value", "processed")
 
     def cache_value(self, cls):
         return '...'+cls.cache[20:120]+'...'

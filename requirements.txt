@@ -6,7 +6,9 @@ certifi==2024.2.2
 charset-normalizer==3.3.2
 click==8.1.7
 Django==5.0.3
+django-classy-tags==4.1.0
 django-crontab==0.7.1
+django-restart==0.2.8.7
 djangorestframework==3.15.1
 dynaconf==3.2.5
 feedparser==6.0.11

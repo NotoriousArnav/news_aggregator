@@ -62,6 +62,7 @@ class RSS_Cache(models.Model):
     source = models.ForeignKey(Source, on_delete=models.PROTECT, default=Source.get_default_pk)
     cache = models.TextField()
     timestamp = models.DateTimeField(auto_now_add=True, blank=False)
+    processed = models.BooleanField(default=False)
 
     class Meta:
         verbose_name = "RSS Cache"

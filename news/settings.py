@@ -37,6 +37,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    # Plugins
+    'django_crontab',
+    # User Apss
+    'RSS_Sources',
 ]
 
 MIDDLEWARE = [

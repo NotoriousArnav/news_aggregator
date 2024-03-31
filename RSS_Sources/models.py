@@ -39,6 +39,7 @@ class Source(models.Model):
     favicon = models.CharField(max_length=2048, blank=True, null=True)
     rss_feed_link = models.CharField(max_length=4096, null=False, blank=False)
     date_added = models.DateField(auto_now_add=True, blank=False)
+    update_interval = models.IntegerField(default=10)
     type = models.ForeignKey(SourceType, on_delete=models.RESTRICT, default=SourceType.get_default_pk)
 
     @classmethod

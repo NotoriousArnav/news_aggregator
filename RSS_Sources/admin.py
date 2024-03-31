@@ -2,7 +2,7 @@ from django.contrib import admin
 from .models import *
 
 class SourceTable(admin.ModelAdmin):
-    list_display = ("name", "type", "typetype", "date_added", "rss_feed_link", "updates", "last_updated")
+    list_display = ("name", "type", "typetype", "update_interval", "date_added", "rss_feed_link", "updates", "last_updated")
 
     def updates(self, cls):
         return cls.rss_cache_set.count()

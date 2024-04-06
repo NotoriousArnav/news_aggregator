@@ -16,6 +16,7 @@ hvac==2.1.0
 idna==3.6
 knox==0.1.14
 loguru==0.7.2
+python-dotenv==1.0.1
 pytz==2024.1
 requests==2.31.0
 sgmllib3k==1.0.0

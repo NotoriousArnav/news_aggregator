@@ -1,6 +1,7 @@
 from django.db import models
+from django.conf import settings
 from RSS_Sources.models import *
-import hashlib
+import hashlib, requests, os
 
 # Create your models here.
 class Article(models.Model):
@@ -17,6 +18,18 @@ class Article(models.Model):
     datetime = models.DateTimeField(blank=False, null=False, editable=True)
     keywords = models.TextField(blank=True, default='')
 
+    def keywords_(self):
+        API_TOKEN = os.getenv('HFHUB_API_TOKEN', None)
+        headers = {"Authorization": f"Bearer {API_TOKEN}"}
+        payload = self.description+' '+self.title
+        response = requests.post("https://api-inference.huggingface.co/models/ilsilfverskiold/bart_keywords", headers=headers, json=payload)
+        data = response.json()
+        try:
+            dt = data[0]['generated_text']
+            print(dt)
+            return dt
+        except:
+            return ''
 
     def md5hash(self):
         content = f"""{self.title}{self.description}{self.content}""".encode()
@@ -25,3 +38,8 @@ class Article(models.Model):
 
     def __str__(self):
         return f"{self.source} - {self.title}"
+
+    def save(self, *args, **kwargs):
+        self.keywords = self.keywords_()
+        #print(self.keywords_())
+        return super().save(*args, **kwargs)

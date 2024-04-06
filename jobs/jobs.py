@@ -46,7 +46,7 @@ def make_articles():
             print(created)
         x.processed = True
         x.save()
-    #print("Made Article")
+    print("Made Article")
 
 def delete_cache():
     qry_set = RSS_Cache.objects.filter(processed=True)

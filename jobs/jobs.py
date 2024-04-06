@@ -39,16 +39,39 @@ def make_articles():
         y = parse_feed(x.cache)
         for f in y:
         #    print(f[0], f[1][:20], f[2], f[3], sep="...")
+            content = f"""{f[0]}{f[2]}{f[1]}""".encode()
+            digest = hashlib.md5(content).hexdigest()
+            print(f[0], f[3])
             article, created = Article.objects.get_or_create(
                 title = f[0],
                 content = f[1],
                 description = f[2],
                 datetime = f[3],
-                source = x.source
+                source = x.source,
+                md5hash_value = digest
             )
         x.processed = True
         x.save()
     print("Made Article")
+
+def delete_dupes():
+    from collections import Counter
+
+# Get all articles from the database
+    articles = Article.objects.all()
+
+# Create a Counter object to count the occurrences of each md5hash
+    hash_counter = Counter(article.md5hash_value for article in articles if article.md5hash_value)
+
+# Get the md5hash values that occur more than once (duplicates)
+    duplicate_hashes = [hash for hash, count in hash_counter.items() if count > 1]
+
+# Iterate over the duplicates and delete them
+    for hash in duplicate_hashes:
+        duplicate_articles = Article.objects.filter(md5hash_value=hash)[1:]
+        for article in duplicate_articles:
+            print(f"Deleted Duplicate: {article}")
+            article.delete()
 
 def delete_cache():
     qry_set = RSS_Cache.objects.filter(processed=True)

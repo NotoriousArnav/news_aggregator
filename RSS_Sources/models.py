@@ -67,3 +67,6 @@ class RSS_Cache(models.Model):
     class Meta:
         verbose_name = "RSS Cache"
         verbose_name_plural = "RSS Cache"
+
+    def __str__(self):
+        return f'{self.source} - {self.timestamp}'

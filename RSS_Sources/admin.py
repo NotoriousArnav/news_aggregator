@@ -27,10 +27,10 @@ class SourceTypeTable(admin.ModelAdmin):
         return cls.source_set.count()
 
 class RSSCache(admin.ModelAdmin):
-    list_display = ("source", "timestamp", "cache_value", "processed")
+    list_display = ("source", "timestamp", "processed", "cache_value")
 
     def cache_value(self, cls):
-        return '...'+cls.cache[20:120]+'...'
+        return '...'+cls.cache[:176]+'...'
 
 # Register your models here.
 admin.site.register(SourceType, SourceTypeTable)

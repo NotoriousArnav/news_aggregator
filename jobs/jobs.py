@@ -9,7 +9,10 @@ def date_to_datetime(date_string, date_format="%a, %d %b %Y %H:%M:%S %z"):
     try:
         date_obj = datetime.strptime(date_string, date_format)
     except:
-        date_obj = datetime.strptime(date_string, "%a, %d %b %Y %H:%M:%S %Z")
+        try:
+            date_obj = datetime.strptime(date_string, "%a, %d %b %Y %H:%M:%S %Z")
+        except:
+            date_obj = datetime.fromisoformat(date_string)
     return date_obj
 
 def parse_feed(feed_):
@@ -43,7 +46,6 @@ def make_articles():
                 datetime = f[3],
                 source = x.source
             )
-            print(created)
         x.processed = True
         x.save()
     print("Made Article")

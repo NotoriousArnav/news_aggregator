@@ -21,6 +21,7 @@ class Article(models.Model):
     datetime = models.DateTimeField(blank=False, null=False, editable=True)
     keywords = models.TextField(blank=True, default='')
     md5hash_value = models.CharField(max_length=35, default=return_rand)
+    thumbnail = models.CharField(max_length=2048, default="")
 
     def keywords_(self):
         API_TOKEN = os.getenv('HFHUB_API_TOKEN', None)
@@ -30,7 +31,8 @@ class Article(models.Model):
         data = response.json()
         try:
             dt = data[0]['generated_text']
-            print(dt)
+            if self.keywords == '':
+                self.keywords = dt
             return dt
         except:
             return ''

@@ -1,6 +1,9 @@
 from django.urls import path
-from .views import *
+from rest_framework.routers import DefaultRouter
+from . import views
 
-urlpatterns = [
-    path('', index)
-]
+router = DefaultRouter()
+router.register(r'sources', views.SourceViewSet)
+router.register(r'source-types', views.SourceTypeViewSet)
+
+urlpatterns = router.urls

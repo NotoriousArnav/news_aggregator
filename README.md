@@ -11,3 +11,5 @@ Free media is a cornerstone of a healthy democracy. When major news outlets are 
 ## Working Model of the Project
 This Repo is the API Server for Aggregating News from Several Sources and then Serve them via a Really Basic UI and an API.
 Its reccomended to use Dedicated Frontends pointed towards this Server, since they will provide a really good Experience with their UI/UX as well as Provide Automation Opportunities.
+
+The separation of Backend/ServiceAPI and Frontends allow decentralized to prosper.

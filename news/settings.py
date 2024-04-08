@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     # Plugins
     'rest_framework',
+    'django_filters',
     # User Apss
     'RSS_Sources',
     'articles',
@@ -79,6 +80,11 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'news.wsgi.application'
 
+REST_FRAMEWORK = {
+    'DEFAULT_FILTER_BACKENDS': (
+        'django_filters.rest_framework.DjangoFilterBackend',
+    ),
+}
 
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases

@@ -30,7 +30,11 @@ def parse_feed(feed_):
             content = entry.summary
         else:
             content = "Content: Not Available"
-        entries.append((title, content, entry.summary, date_to_datetime(entry.published)))
+        try:
+            thumbnail = entry.media_thumbnail[0]['url']
+        except:
+            thumbnail = [x for x in entry.links if x['rel'] == 'enclosure'][0]['href']
+        entries.append((title, content, entry.summary, date_to_datetime(entry.published), entry.link, thumbnail))
     return entries
 
 def make_articles():
@@ -42,14 +46,19 @@ def make_articles():
             content = f"""{f[0]}{f[2]}{f[1]}""".encode()
             digest = hashlib.md5(content).hexdigest()
             print(f[0], f[3])
-            article, created = Article.objects.get_or_create(
-                title = f[0],
-                content = f[1],
-                description = f[2],
-                datetime = f[3],
-                source = x.source,
-                md5hash_value = digest
-            )
+            try:
+                article, created = Article.objects.get_or_create(
+                    title = f[0],
+                    content = f[1],
+                    description = f[2],
+                    datetime = f[3],
+                    link = f[4],
+                    thumbnail = f[5],
+                    source = x.source,
+                    md5hash_value = digest,
+                )
+            except Article.MultipleObjectsReturned:
+                print("Skipped Dupe")
         x.processed = True
         x.save()
     print("Made Article")
@@ -95,3 +104,10 @@ Next Update in {source.update_interval} minutes""")
             cache=string
         )
         print("Updated")
+
+def update_keywords():
+    import time
+    qry_set = Article.objects.filter(keywords='')
+    for x in qry_set:
+        print(x.keywords_())
+        time.sleep(2)

@@ -20,6 +20,7 @@ def update_scheduler(sender, instance, **kwargs):
         print("Make Articles Job Added")
         scheduler.add_job(delete_cache, 'interval', seconds=120)
         print("Delete Cache after 90 Seconds Job Addded")
+        scheduler.add_job(update_keywords, 'interval', seconds=30*60)
         scheduler.start()
 
 def start():
@@ -33,4 +34,5 @@ def start():
     print("Delete Cache after 90 Seconds Job Addded")
     scheduler.add_job(delete_dupes, 'interval', seconds=30)
     print("Dupes Doomer Job Addded")
+    scheduler.add_job(update_keywords, 'interval', seconds=30*60)
     scheduler.start()

@@ -27,9 +27,9 @@ class Article(models.Model):
         API_TOKEN = os.getenv('HFHUB_API_TOKEN', None)
         headers = {"Authorization": f"Bearer {API_TOKEN}"}
         payload = self.description+' '+self.title
-        response = requests.post("https://api-inference.huggingface.co/models/ilsilfverskiold/bart_keywords", headers=headers, json=payload)
-        data = response.json()
         try:
+            response = requests.post("https://api-inference.huggingface.co/models/ilsilfverskiold/bart_keywords", headers=headers, json=payload)
+            data = response.json()
             dt = data[0]['generated_text']
             if self.keywords == '':
                 self.keywords = dt

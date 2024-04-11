@@ -32,7 +32,7 @@ def start():
     print("Make Articles Job Added")
     scheduler.add_job(delete_cache, 'interval', seconds=120)
     print("Delete Cache after 90 Seconds Job Addded")
-    scheduler.add_job(delete_dupes, 'interval', seconds=30)
+    scheduler.add_job(delete_dupes, 'interval', seconds=5)
     print("Dupes Doomer Job Addded")
     scheduler.add_job(update_keywords, 'interval', seconds=30*60)
     scheduler.start()

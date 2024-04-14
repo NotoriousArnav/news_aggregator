@@ -33,4 +33,3 @@ This Repo is the API Server for Aggregating News from Several Sources and then S
 Its reccomended to use Dedicated Frontends pointed towards this Server, since they will provide a really good Experience with their UI/UX as well as Provide Automation Opportunities.
 
 The separation of Backend/ServiceAPI and Frontends allow decentralized to prosper.
-

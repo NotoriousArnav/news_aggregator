@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% block head %}
+{% endblock %}
+{% block body %}
+<h1>{{ article.title }}</h1>
+<a href="{{ article.link }}">Source Article</a>
+<p>Summary: {{ article.description }}</p>
+<hr>
+<p>{{ article.content | safe }}</p>
+<!-- <h3>Slug Requested: {{slug}}</h3> -->
+{% endblock %}

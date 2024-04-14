@@ -1,5 +1,5 @@
 from django.apps import AppConfig
-
+from django.db.utils import ProgrammingError
 
 class RssSourcesConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
@@ -7,5 +7,8 @@ class RssSourcesConfig(AppConfig):
     verbose_name = "RSS Sources"
 
     def ready(self):
-        from jobs import updater
-        updater.start()
+        try:
+            from jobs import updater
+            updater.start()
+        except ProgrammingError as e:
+            print(e)

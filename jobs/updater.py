@@ -14,25 +14,18 @@ def update_scheduler(sender, instance, **kwargs):
         scheduler = BackgroundScheduler()
         sources = Source.objects.all()
         for source in sources:
-            print(f"Added RSS Job for Source: {source} with interval {source.update_interval} minutes")
             scheduler.add_job(get_feed, 'interval', seconds=source.update_interval*60, args=[source])
         scheduler.add_job(make_articles, 'interval', seconds=60)
-        print("Make Articles Job Added")
         scheduler.add_job(delete_cache, 'interval', seconds=120)
-        print("Delete Cache after 90 Seconds Job Addded")
         scheduler.add_job(update_keywords, 'interval', seconds=30*60)
         scheduler.start()
 
 def start():
     sources = Source.objects.all()
     for source in sources:
-        print(f"Added RSS Job for Source: {source} with interval {source.update_interval} minutes")
         scheduler.add_job(get_feed, 'interval', seconds=source.update_interval*60, args=[source])
     scheduler.add_job(make_articles, 'interval', seconds=60)
-    print("Make Articles Job Added")
     scheduler.add_job(delete_cache, 'interval', seconds=120)
-    print("Delete Cache after 90 Seconds Job Addded")
     scheduler.add_job(delete_dupes, 'interval', seconds=5)
-    print("Dupes Doomer Job Addded")
     scheduler.add_job(update_keywords, 'interval', seconds=30*60)
     scheduler.start()

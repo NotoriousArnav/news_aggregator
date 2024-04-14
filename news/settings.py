@@ -10,8 +10,9 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
-from pathlib import Path
 from dotenv import load_dotenv
+from pathlib import Path
+import dj_database_url
 import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -28,10 +29,11 @@ HFHUB_API_TOKEN = os.getenv('HFHUB_API_TOKEN', None)
 SECRET_KEY = 'django-insecure-4p%0qyj!wv-t)v2z7=(n19c&(j76*v7t&ci%ddb+@$il^^rikv'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = bool(int(os.getenv('DEBUG', False)))
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
+DATA_UPLOAD_MAX_NUMBER_FIELDS = 10240
 
 # Application definition
 
@@ -46,10 +48,15 @@ INSTALLED_APPS = [
     'rest_framework',
     'django_filters',
     'corsheaders',
+    'django.contrib.sitemaps',
+    'dbbackup',
     # User Apss
     'RSS_Sources',
     'articles',
+    'SimpleFrontend',
 ]
+
+DBBACKUP_STORAGE = 'news.storage.VercelBlobStorage'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -94,13 +101,8 @@ REST_FRAMEWORK = {
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-}
-
+DATABASES = dict()
+DATABASES['default'] = dj_database_url.config(default=os.getenv("DB_URL", "sqlite:///db.sqlite3"))
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
@@ -125,11 +127,8 @@ AUTH_PASSWORD_VALIDATORS = [
 # https://docs.djangoproject.com/en/5.0/topics/i18n/
 
 LANGUAGE_CODE = 'en-us'
-
 TIME_ZONE = 'Asia/Kolkata'
-
 USE_I18N = True
-
 USE_TZ = True
 
 
@@ -137,6 +136,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
 STATIC_URL = 'static/'
+STATIC_ROOT = BASE_DIR / "static"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field

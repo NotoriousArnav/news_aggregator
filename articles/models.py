@@ -2,6 +2,7 @@ from django.db import models
 from django.conf import settings
 from RSS_Sources.models import *
 import hashlib, requests, os, random, string
+from django.template.defaultfilters import slugify
 
 def return_rand():
     return str(int(random.random()*10))
@@ -14,6 +15,7 @@ class Article(models.Model):
         editable=False
     )
     title = models.CharField(max_length=1024, blank=False)
+    slug = models.SlugField(default=slugify(title))
     source = models.ForeignKey(Source, on_delete=models.PROTECT, default=Source.get_default_pk, blank=False, null=False)
     description = models.TextField(blank=False)
     content = models.TextField(blank=True, default='')
@@ -28,7 +30,11 @@ class Article(models.Model):
         headers = {"Authorization": f"Bearer {API_TOKEN}"}
         payload = self.description+' '+self.title
         try:
-            response = requests.post("https://api-inference.huggingface.co/models/ilsilfverskiold/bart_keywords", headers=headers, json=payload)
+            response = requests.post(
+                "https://api-inference.huggingface.co/models/ilsilfverskiold/bart_keywords",
+                headers=headers,
+                json=payload
+            )
             data = response.json()
             dt = data[0]['generated_text']
             if self.keywords == '':
@@ -49,6 +55,7 @@ class Article(models.Model):
     def save(self, *args, **kwargs):
         if self.keywords == '':
             self.keywords = self.keywords_()
+        self.slug = slugify(self.title+'-'+self.source.name)
         if len(self.md5hash_value) == 32:
             self.md5hash_value = self.md5hash()
         return super().save(*args, **kwargs)

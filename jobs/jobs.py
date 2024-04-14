@@ -45,7 +45,6 @@ def make_articles():
         #    print(f[0], f[1][:20], f[2], f[3], sep="...")
             content = f"""{f[0]}{f[2]}{f[1]}""".encode()
             digest = hashlib.md5(content).hexdigest()
-            print(f[0], f[3])
             try:
                 article, created = Article.objects.get_or_create(
                     title = f[0],
@@ -58,10 +57,9 @@ def make_articles():
                     md5hash_value = digest,
                 )
             except Article.MultipleObjectsReturned:
-                print("Skipped Dupe")
+                pass
         x.processed = True
         x.save()
-    print("Made Article")
 
 def delete_dupes():
     from collections import Counter
@@ -79,18 +77,14 @@ def delete_dupes():
     for hash in duplicate_hashes:
         duplicate_articles = Article.objects.filter(md5hash_value=hash)[1:]
         for article in duplicate_articles:
-            print(f"Deleted Duplicate: {article}")
             article.delete()
 
 def delete_cache():
     qry_set = RSS_Cache.objects.filter(processed=True)
     for x in qry_set:
-        print(f"deleted: {x.source} {x.timestamp}")
         x.delete()
     
 def get_feed(source):
-    print(f"""Updating "{source.name}" from RSS Url {source.rss_feed_link}.
-Next Update in {source.update_interval} minutes""")
     string = requests.get(source.rss_feed_link).text.strip()
     obj = RSS_Cache.objects.filter(source=source).first()
     try:
@@ -98,16 +92,14 @@ Next Update in {source.update_interval} minutes""")
     except:
         latest_cache = None
     if (latest_cache == None) or (string != latest_cache):
-        print("Updating")
         RSS_Cache.objects.create(
             source=source,
             cache=string
         )
-        print("Updated")
 
 def update_keywords():
     import time
     qry_set = Article.objects.filter(keywords='')
     for x in qry_set:
-        print(x.keywords_())
         time.sleep(2)
+        x.save()

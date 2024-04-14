@@ -1,11 +1,33 @@
 {% extends 'base.html' %}
 {% block head %}
+<style class="darkreader darkreader--sync" media="screen">
+h1, h2, h3, h4, h5, h6 { font-family: 'Rethink Sans', sans-serif; --font-sans: 'Rethink Sans'; }
+body { font-family: 'Libre Franklin', sans-serif; --font-sans: 'Libre Franklin'; }
+</style>
 {% endblock %}
 {% block body %}
-<h1>{{ article.title }}</h1>
-<a href="{{ article.link }}">Source Article</a>
-<p>Summary: {{ article.description }}</p>
-<hr>
-<p>{{ article.content | safe }}</p>
-<!-- <h3>Slug Requested: {{slug}}</h3> -->
+<!--
+// v0 by Vercel.
+// https://v0.dev/t/ngRcOtbCotn
+-->
+
+<style class="darkreader darkreader--sync" media="screen"></style>
+<div class="px-4 py-6 md:py-12 lg:py-16 md:px-6">
+  <div class="space-y-2 not-prose">
+    <h1 class="text-3xl font-bold tracking-tight lg:text-4xl xl:text-5xl">
+      {{article.title}}
+    </h1>
+    <p class="text-gray-500 dark:text-gray-400">
+    <a href="{{ article.link }}">
+        {{ article.source }}
+    </a>
+    </p>
+  </div>
+  <article class="prose prose-gray mx-auto max-w-6xl dark:prose-invert h-auto" style="overflow:hidden;">
+    {% if article.description %}
+    <p>Summary: {{ article.description }}</p>
+    {% endif %}
+    <iframe src="./content" style="width: 100%; min-height: 100vh; height: auto;" frameborder="1"></iframe>
+  </article>
+</div>
 {% endblock %}

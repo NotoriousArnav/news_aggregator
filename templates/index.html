@@ -2,5 +2,23 @@
 {% block head %}
 {% endblock %}
 {% block body %}
-<h1>Not That RSS bro</h1>
+<main class="p-1 m-4">
+    <h1 class="text-4xl">Democratic Defenders (Alpha)</h1>
+    <strong>Warning: The Database can be Wiped on this Hosted Instance by the Maintainer, so A Decentralized netowork of these kind of Projects is neccesary.</strong>
+    <strong>Note from the Maintainer: Since I am still working on this Project to make it as Easy and Developer friendly, I will wipe the Postgres SQL Database If any migrations are not going well. If you want to host it on your own, a guide is/will be provided on the Github Repo</strong>
+    <br>
+    <p>
+        This is a Simple API and RSS Feed Aggregator and Generator that allows users, primarily Developers, to Get News From various Sources without the hassel of Finding and Refining it yourself.
+    </p>
+    <p>
+        <ul>
+            The API Endpoints are:
+            <li>/api/articles</li>
+            <li>/api/articles/:article_uuid:</li>
+            <li>/api/source_models/sources/</li>
+            <li>/api/source_models/source-types/</li>
+        </ul>
+    </p>
+
+</main>
 {% endblock %}

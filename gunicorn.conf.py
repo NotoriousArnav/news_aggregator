@@ -1,5 +1,5 @@
 import os
-bind = '0.0.0.0:' + environ.get('PORT', '8080')
+bind = '0.0.0.0:' + os.environ.get('PORT', '8080')
 # workers = cpu_count()
 
 # Add the --reload option

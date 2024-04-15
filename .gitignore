@@ -3,4 +3,7 @@ env
 .env.*
 .env
 db.sqlite3
+db*.sqlite3
+*.sqlite3
 articles.db
+*.db

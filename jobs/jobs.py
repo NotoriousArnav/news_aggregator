@@ -56,8 +56,11 @@ def make_articles():
                     source = x.source,
                     md5hash_value = digest,
                 )
-            except Article.MultipleObjectsReturned:
-                pass
+            except Exception as e:
+                if isinstance(e, Article,MultipleObjectsReturned):
+                    pass
+                elif isinstance(e, Article.DoesNotExist):
+                    print(e)
         x.processed = True
         x.save()
 

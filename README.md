@@ -1,5 +1,11 @@
 # Democratic Defenders
 
+Update: The Source code is Almost Fucked, because
+- Many RSS Feeds are compatible
+- Can't be Deployed on Vercel or Render or etc (No Serverless, only Monolith)
+
+Most likely, I might Make another Project like this Exclusively for Running on Vercel or Render or some services like that to ensure that we can Run this Application anywhere
+
 Democratic Defenders is a Django-based application designed to defend the 4th Pillar of a Democratic Institution, which is Media. It functions as a news aggregator and redistributor, emphasizing the importance of independent media in a healthy democracy.
 
 Key Features:

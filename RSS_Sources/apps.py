@@ -12,5 +12,5 @@ class RssSourcesConfig(AppConfig):
         try:
             from jobs import updater
             updater.start()
-        except ProgrammingError as e:
+        except Exception as e:
             print(e)

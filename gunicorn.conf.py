@@ -1,10 +1,12 @@
-import os
+import os, multiprocessing
 bind = '0.0.0.0:' + os.environ.get('PORT', '8080')
-# workers = cpu_count()
+
+workers = multiprocessing.cpu_count()
+
+print('Using Default Conf')
 
 # Add the --reload option
 reload = True
-
 # Specify the default application
 default_proc_name = 'news.wsgi:application'
 

@@ -1,5 +1,6 @@
-from django.apps import AppConfig
 from django.db.utils import ProgrammingError
+from django.apps import AppConfig
+import connection
 
 class RssSourcesConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
@@ -7,6 +8,7 @@ class RssSourcesConfig(AppConfig):
     verbose_name = "RSS Sources"
 
     def ready(self):
+        connection.close_if_unusable_or_obsolete()
         try:
             from jobs import updater
             updater.start()

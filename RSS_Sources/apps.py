@@ -7,10 +7,10 @@ class RssSourcesConfig(AppConfig):
     name = 'RSS_Sources'
     verbose_name = "RSS Sources"
 
-    def ready(self):
-        # connection.close_if_unusable_or_obsolete()
-        try:
-            from jobs import updater
-            updater.start()
-        except ProgrammingError as e:
-            print(e)
+    # def ready(self):
+    #     # connection.close_if_unusable_or_obsolete()
+    #     try:
+    #         from jobs import updater
+    #         updater.start()
+    #     except ProgrammingError as e:
+    #         print(e)

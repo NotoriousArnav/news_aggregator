@@ -32,8 +32,11 @@ def parse_feed(feed_):
             content = "Content: Not Available"
         try:
             thumbnail = entry.media_thumbnail[0]['url']
-        except:
-            thumbnail = [x for x in entry.links if x['rel'] == 'enclosure'][0]['href']
+        except AttributeError:
+            try:
+                thumbnail = [x for x in entry.links if x['rel'] == 'enclosure'][0]['href']
+            except IndexError:
+                thumbnail = ''
         entries.append((title, content, entry.summary, date_to_datetime(entry.published), entry.link, thumbnail))
     return entries
 
@@ -47,12 +50,7 @@ def make_articles():
             digest = hashlib.md5(content).hexdigest()
             try:
                 article, created = Article.objects.get_or_create(
-                    title = f[0],
-                    content = f[1],
-                    description = f[2],
                     datetime = f[3],
-                    link = f[4],
-                    thumbnail = f[5],
                     source = x.source,
                     md5hash_value = digest,
                 )
